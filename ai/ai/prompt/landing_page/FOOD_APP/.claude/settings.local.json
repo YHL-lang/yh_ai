@@ -1,0 +1,17 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(npx create-vite@latest . --template react-ts)",
+      "Bash(npx create-vite@latest foodiez-temp --template react-ts)",
+      "Bash(mv foodiez-temp/* .)",
+      "Bash(mv foodiez-temp/.* .)",
+      "Bash(rm -rf foodiez-temp)",
+      "Bash(cp -r foodiez-temp/* .)",
+      "Bash(cp -r foodiez-temp/.* .)",
+      "Bash(npm install *)",
+      "Bash(npm --version)",
+      "Bash(npx tsc *)",
+      "Bash(npx vite *)"
+    ]
+  }
+}

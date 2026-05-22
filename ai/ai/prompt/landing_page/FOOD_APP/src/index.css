@@ -1,0 +1,57 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    @apply text-gray-900 bg-white;
+  }
+
+  :focus-visible {
+    @apply outline-2 outline-offset-2 outline-brand-500;
+  }
+}
+
+@layer components {
+  .btn-primary {
+    @apply inline-flex items-center justify-center gap-2 px-8 py-4 bg-brand-500 text-white font-semibold
+           rounded-2xl shadow-soft hover:bg-brand-600 hover:shadow-card active:scale-95
+           transition-all duration-200 cursor-pointer select-none;
+  }
+
+  .btn-secondary {
+    @apply inline-flex items-center justify-center gap-2 px-8 py-4 bg-white text-brand-500 font-semibold
+           rounded-2xl shadow-soft border-2 border-brand-500 hover:bg-brand-50 active:scale-95
+           transition-all duration-200 cursor-pointer select-none;
+  }
+
+  .btn-store {
+    @apply inline-flex items-center gap-3 px-6 py-3 bg-black text-white font-semibold
+           rounded-2xl hover:bg-gray-800 active:scale-95 transition-all duration-200 cursor-pointer select-none;
+  }
+
+  .glass {
+    @apply bg-white/80 backdrop-blur-xl border-b border-white/20;
+  }
+}
+
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+}
+
+/* Hide scrollbar for horizontal scroll */
+.hide-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.hide-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}

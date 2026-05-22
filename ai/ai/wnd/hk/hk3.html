@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>生日贺卡</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: "Microsoft YaHei", sans-serif;
+    }
+
+    body {
+      background-color: #fff5f7;
+      padding: 20px;
+    }
+
+    /* 喜庆标题 */
+    .header {
+      text-align: center;
+      margin-bottom: 30px;
+    }
+
+    .header h1 {
+      color: #ff4081;
+      font-size: 42px;
+      text-shadow: 2px 2px 4px rgba(255, 179, 203, 0.8);
+    }
+
+    .header p {
+      color: #ff79a8;
+      font-size: 18px;
+      margin-top: 8px;
+    }
+
+    /* 布局容器 */
+    .container {
+      display: flex;
+      gap: 30px;
+      max-width: 1200px;
+      margin: 0 auto;
+      align-items: flex-start;
+    }
+
+    /* 左侧表单 */
+    .form-box {
+      flex: 1;
+      background: white;
+      padding: 25px;
+      border-radius: 15px;
+      box-shadow: 0 4px 12px rgba(255, 148, 192, 0.2);
+      position: sticky;
+      top: 20px;
+    }
+
+    .form-box h2 {
+      color: #ff4081;
+      margin-bottom: 20px;
+      text-align: center;
+    }
+
+    .input-group {
+      margin-bottom: 18px;
+    }
+
+    .input-group label {
+      display: block;
+      margin-bottom: 8px;
+      color: #d81b60;
+      font-weight: bold;
+    }
+
+    .input-group input {
+      width: 100%;
+      padding: 12px;
+      border: 2px solid #ffc0cb;
+      border-radius: 8px;
+      font-size: 16px;
+      outline: none;
+    }
+
+    .input-group input:focus {
+      border-color: #ff4081;
+    }
+
+    /* 生成按钮 */
+    #createBtn {
+      width: 100%;
+      padding: 14px;
+      background: linear-gradient(45deg, #ff4081, #ff79a8);
+      color: white;
+      border: none;
+      border-radius: 10px;
+      font-size: 18px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: 0.3s;
+      margin-top: 10px;
+    }
+
+    #createBtn:hover {
+      transform: scale(1.03);
+    }
+
+    /* 右侧贺卡区域 */
+    .cards-box {
+      flex: 1.2;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    /* 生日贺卡样式 */
+    .birthday-card {
+      background: white;
+      padding: 30px;
+      border-radius: 15px;
+      box-shadow: 0 6px 16px rgba(255, 148, 192, 0.3);
+      border-left: 8px solid #ff4081;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .birthday-card::before {
+      content: "🎂";
+      position: absolute;
+      top: 10px;
+      right: 15px;
+      font-size: 30px;
+    }
+
+    .card-text {
+      font-size: 19px;
+      line-height: 1.7;
+      color: #333;
+    }
+
+    .card-text strong {
+      color: #d81b60;
+      font-size: 21px;
+    }
+
+    /* 响应式 */
+    @media (max-width: 768px) {
+      .container {
+        flex-direction: column;
+      }
+
+      .form-box {
+        position: static;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <!-- 顶部标题 -->
+  <div class="header">
+    <h1>🎉 超可爱生日贺卡 🎉</h1>
+    <p>专属祝福，送给最爱的人～</p>
+  </div>
+
+  <div class="container">
+    <!-- 左侧表单 -->
+    <div class="form-box">
+      <h2>填写信息</h2>
+      <div class="input-group">
+        <label>姓名</label>
+        <input type="text" id="name" placeholder="请输入名字">
+      </div>
+      <div class="input-group">
+        <label>年龄</label>
+        <input type="text" id="age" placeholder="请输入年龄">
+      </div>
+      <div class="input-group">
+        <label>爱好</label>
+        <input type="text" id="hobby" placeholder="比如：画画、打球、干饭">
+      </div>
+      <button id="createBtn">生成生日贺卡</button>
+    </div>
+
+    <!-- 右侧贺卡展示区 -->
+    <div class="cards-box" id="cardsContainer">
+      <!-- 贺卡会自动生成在这里 -->
+    </div>
+  </div>
+
+  <script>
+    const createBtn = document.getElementById('createBtn');
+    const cardsContainer = document.getElementById('cardsContainer');
+
+    createBtn.addEventListener('click', () => {
+      // 获取输入内容
+      const name = document.getElementById('name').value.trim();
+      const age = document.getElementById('age').value.trim();
+      const hobby = document.getElementById('hobby').value.trim();
+
+      // 简单校验
+      if (!name || !age || !hobby) {
+        alert('请填写完整信息哦～');
+        return;
+      }
+
+      // 生成有趣的祝福语
+      const message = `
+                亲爱的 <strong>${name}</strong>！<br><br>
+                祝你 <strong>${age} 岁</strong> 生日快乐呀～🎂<br>
+                愿你天天开心，永远热爱 <strong>${hobby}</strong>！<br>
+                吃好喝好，烦恼全跑，好运爆棚，快乐不倒！🥳
+            `;
+
+      // 创建贺卡元素
+      const card = document.createElement('div');
+      card.className = 'birthday-card';
+      card.innerHTML = `<div class="card-text">${message}</div>`;
+
+      // 添加到页面（追加在下方，不会替换）
+      cardsContainer.appendChild(card);
+
+      // 清空输入框
+      document.getElementById('name').value = '';
+      document.getElementById('age').value = '';
+      document.getElementById('hobby').value = '';
+    });
+  </script>
+</body>
+
+</html>

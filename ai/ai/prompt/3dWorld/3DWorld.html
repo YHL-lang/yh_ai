@@ -1,0 +1,588 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>3D小世界编辑器</title>
+  <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/build/three.min.js"></script>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      user-select: none;
+      font-family: system-ui, -apple-system, sans-serif;
+    }
+
+    body {
+      background: #f8f5f0;
+      overflow: hidden;
+      width: 100vw;
+      height: 100vh;
+    }
+
+    #scene-container {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+    }
+
+    /* 顶部UI面板 */
+    .top-panel {
+      position: absolute;
+      top: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: rgba(255, 255, 255, 0.85);
+      backdrop-filter: blur(10px);
+      padding: 12px 20px;
+      border-radius: 16px;
+      display: flex;
+      gap: 12px;
+      align-items: center;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+      z-index: 10;
+    }
+
+    .title {
+      font-size: 18px;
+      font-weight: 600;
+      color: #333;
+    }
+
+    select,
+    button {
+      padding: 6px 10px;
+      border: none;
+      border-radius: 8px;
+      background: rgba(255, 255, 255, 0.9);
+      cursor: pointer;
+      font-size: 14px;
+      transition: 0.2s;
+    }
+
+    button:hover {
+      background: #e3f2fd;
+    }
+
+    /* 底部工具栏 */
+    .tool-panel {
+      position: absolute;
+      bottom: 30px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: rgba(255, 255, 255, 0.85);
+      backdrop-filter: blur(10px);
+      padding: 10px 15px;
+      border-radius: 20px;
+      display: flex;
+      gap: 10px;
+      z-index: 10;
+    }
+
+    .tool {
+      width: 50px;
+      height: 50px;
+      border-radius: 12px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      font-size: 12px;
+      background: rgba(255, 255, 255, 0.7);
+      transition: 0.2s;
+    }
+
+    .tool.active {
+      background: #bbdefb;
+      transform: translateY(-2px);
+    }
+
+    .tool:hover {
+      background: #f5f5f5;
+    }
+
+    /* 小地图 */
+    #minimap {
+      position: absolute;
+      bottom: 20px;
+      right: 20px;
+      width: 120px;
+      height: 120px;
+      background: rgba(255, 255, 255, 0.8);
+      border-radius: 12px;
+      backdrop-filter: blur(8px);
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+      z-index: 10;
+    }
+
+    /* 操作提示 */
+    .toast {
+      position: absolute;
+      top: 100px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: rgba(0, 0, 0, 0.7);
+      color: white;
+      padding: 10px 20px;
+      border-radius: 10px;
+      font-size: 14px;
+      opacity: 1;
+      transition: opacity 1s;
+      z-index: 20;
+    }
+
+    .toast.fade {
+      opacity: 0;
+    }
+  </style>
+</head>
+
+<body>
+  <div id="scene-container"></div>
+
+  <!-- 顶部控制栏 -->
+  <div class="top-panel">
+    <div class="title">🧱 3D小世界编辑器</div>
+    <select id="save-select">
+      <option value="1">世界 1</option>
+      <option value="2">世界 2</option>
+      <option value="3">世界 3</option>
+    </select>
+    <button id="reset-btn">🏘️ 随机村庄</button>
+    <button id="clear-btn">🌱 清空草地</button>
+  </div>
+
+  <!-- 底部工具栏 -->
+  <div class="tool-panel">
+    <div class="tool active" data-type="grass">🌿<br>草地</div>
+    <div class="tool" data-type="road">🟤<br>土路</div>
+    <div class="tool" data-type="water">💧<br>水</div>
+    <div class="tool" data-type="stone">🪨<br>石头</div>
+    <div class="tool" data-type="tree">🌳<br>树</div>
+    <div class="tool" data-type="house">🏠<br>房子</div>
+    <div class="tool" data-type="erase">🗑️<br>擦除</div>
+  </div>
+
+  <!-- 小地图 -->
+  <canvas id="minimap"></canvas>
+
+  <!-- 操作提示 -->
+  <div class="toast" id="toast">拖拽旋转 · 滚轮缩放 · 点击放置</div>
+
+  <script>
+    (function () {
+      // ==================== 配置常量 ====================
+      const SIZE = 8;
+      const CELL_SIZE = 1;
+      const CURRENT_SAVE_KEY = 'tiny_world_save';
+      const SAVE_PREFIX = 'tiny_world_data_';
+
+      // ==================== 全局状态 ====================
+      let scene, camera, renderer;
+      let world = [];
+      let currentTool = 'grass';
+      let currentSaveId = '1';
+      let mouse = new THREE.Vector2();
+      let raycaster = new THREE.Raycaster();
+      let hoverPlane = null;
+      let planeMesh = null;
+      let objects = [];
+      let cameraAngleX = Math.PI / 6;
+      let cameraAngleY = 0;
+      let cameraDistance = 12;
+      let isDragging = false;
+      let lastX, lastY;
+
+      // ==================== 场景初始化 ====================
+      function initScene() {
+        const container = document.getElementById('scene-container');
+        scene = new THREE.Scene();
+
+        camera = new THREE.PerspectiveCamera(60, container.clientWidth / container.clientHeight, 0.1, 100);
+        updateCamera();
+
+        renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+        renderer.setSize(container.clientWidth, container.clientHeight);
+        renderer.shadowMap.enabled = true;
+        renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+        container.appendChild(renderer.domElement);
+
+        // 光照
+        const ambient = new THREE.AmbientLight(0xffffff, 0.6);
+        scene.add(ambient);
+
+        const sun = new THREE.DirectionalLight(0xffffff, 0.8);
+        sun.position.set(5, 10, 5);
+        sun.castShadow = true;
+        sun.shadow.bias = -0.001;
+        sun.shadow.mapSize.width = 1024;
+        sun.shadow.mapSize.height = 1024;
+        scene.add(sun);
+
+        // 地面底板
+        const planeGeo = new THREE.PlaneGeometry(SIZE, SIZE);
+        const planeMat = new THREE.MeshLambertMaterial({
+          color: 0x4caf50,
+          side: THREE.DoubleSide
+        });
+        planeMesh = new THREE.Mesh(planeGeo, planeMat);
+        planeMesh.rotation.x = -Math.PI / 2;
+        planeMesh.receiveShadow = true;
+        scene.add(planeMesh);
+
+        // 悬停提示平面
+        const hoverGeo = new THREE.PlaneGeometry(CELL_SIZE - 0.05, CELL_SIZE - 0.05);
+        const hoverMat = new THREE.MeshBasicMaterial({
+          color: 0xffff00,
+          transparent: true,
+          opacity: 0.3
+        });
+        hoverPlane = new THREE.Mesh(hoverGeo, hoverMat);
+        hoverPlane.rotation.x = -Math.PI / 2;
+        hoverPlane.position.y = 0.02;
+        scene.add(hoverPlane);
+      }
+
+      // ==================== 世界数据 ====================
+      function initWorld() {
+        world = [];
+        for (let x = 0; x < SIZE; x++) {
+          world[x] = [];
+          for (let z = 0; z < SIZE; z++) {
+            world[x][z] = { terrain: 'grass', kind: null };
+          }
+        }
+      }
+
+      function setCell(x, z, terrain, kind) {
+        if (x < 0 || x >= SIZE || z < 0 || z >= SIZE) return;
+        world[x][z] = { terrain, kind };
+        refreshCell(x, z);
+        saveWorld();
+        renderMinimap();
+      }
+
+      // ==================== 3D物体工厂 ====================
+      function createTerrain(x, z, type) {
+        const y = 0;
+        const geo = new THREE.BoxGeometry(CELL_SIZE, 0.1, CELL_SIZE);
+        let color = 0x4caf50;
+        if (type === 'road') color = 0x8d6e63;
+        if (type === 'water') color = 0x2196f3;
+        if (type === 'stone') color = 0x757575;
+
+        const mat = new THREE.MeshLambertMaterial({ color });
+        const mesh = new THREE.Mesh(geo, mat);
+        mesh.position.set(x - SIZE / 2 + 0.5, y, z - SIZE / 2 + 0.5);
+        mesh.castShadow = true;
+        mesh.receiveShadow = true;
+        mesh.userData = { x, z, type: 'terrain' };
+        return mesh;
+      }
+
+      function createTree(x, z) {
+        const group = new THREE.Group();
+        const trunk = new THREE.Mesh(
+          new THREE.CylinderGeometry(0.1, 0.12, 0.8),
+          new THREE.MeshLambertMaterial({ color: 0x8d6e63 })
+        );
+        trunk.position.y = 0.4;
+        const crown = new THREE.Mesh(
+          new THREE.SphereGeometry(0.4),
+          new THREE.MeshLambertMaterial({ color: 0x2e7d32 })
+        );
+        crown.position.y = 1;
+        group.add(trunk, crown);
+        group.position.set(x - SIZE / 2 + 0.5, 0.05, z - SIZE / 2 + 0.5);
+        group.userData = { x, z, type: 'tree' };
+        return group;
+      }
+
+      function createHouse(x, z) {
+        const group = new THREE.Group();
+        const base = new THREE.Mesh(
+          new THREE.BoxGeometry(0.8, 0.6, 0.8),
+          new THREE.MeshLambertMaterial({ color: 0xffe0b2 })
+        );
+        base.position.y = 0.3;
+        const roof = new THREE.Mesh(
+          new THREE.ConeGeometry(0.6, 0.5, 4),
+          new THREE.MeshLambertMaterial({ color: 0xd32f2f })
+        );
+        roof.rotation.y = Math.PI / 4;
+        roof.position.y = 0.8;
+        group.add(base, roof);
+        group.position.set(x - SIZE / 2 + 0.5, 0.05, z - SIZE / 2 + 0.5);
+        group.userData = { x, z, type: 'house' };
+        return group;
+      }
+
+      // ==================== 场景刷新 ====================
+      function clearSceneObjects() {
+        for (let i = objects.length - 1; i >= 0; i--) {
+          scene.remove(objects[i]);
+          objects[i].traverse(o => o.material?.dispose());
+        }
+        objects = [];
+      }
+
+      function refreshCell(x, z) {
+        objects = objects.filter(o => {
+          if (o.userData.x === x && o.userData.z === z) {
+            scene.remove(o);
+            return false;
+          }
+          return true;
+        });
+
+        const cell = world[x][z];
+        const t = cell.terrain;
+        const k = cell.kind;
+
+        const terrain = createTerrain(x, z, t);
+        scene.add(terrain);
+        objects.push(terrain);
+
+        if (k === 'tree') {
+          const tree = createTree(x, z);
+          scene.add(tree);
+          objects.push(tree);
+        }
+        if (k === 'house') {
+          const house = createHouse(x, z);
+          scene.add(house);
+          objects.push(house);
+        }
+      }
+
+      function renderWorld() {
+        clearSceneObjects();
+        for (let x = 0; x < SIZE; x++) {
+          for (let z = 0; z < SIZE; z++) {
+            refreshCell(x, z);
+          }
+        }
+      }
+
+      // ==================== 随机村庄生成 ====================
+      function generateVillage() {
+        initWorld();
+        // 水塘
+        for (let x = 2; x <= 4; x++) {
+          for (let z = 2; z <= 4; z++) {
+            setCell(x, z, 'water', null);
+          }
+        }
+        // 石堆
+        setCell(6, 1, 'stone', null);
+        setCell(7, 1, 'stone', null);
+        setCell(6, 2, 'stone', null);
+        // 房子
+        setCell(1, 6, 'grass', 'house');
+        setCell(3, 6, 'grass', 'house');
+        setCell(5, 6, 'grass', 'house');
+        // 树
+        for (let i = 0; i < 8; i++) {
+          const x = Math.floor(Math.random() * SIZE);
+          const z = Math.floor(Math.random() * SIZE);
+          if (world[x][z].terrain === 'grass' && !world[x][z].kind) {
+            setCell(x, z, 'grass', 'tree');
+          }
+        }
+        // 小路
+        for (let p = 1; p <= 6; p++) {
+          setCell(p, 5, 'road', null);
+        }
+        setCell(1, 5, 'road', null);
+        setCell(3, 5, 'road', null);
+        setCell(5, 5, 'road', null);
+      }
+
+      // ==================== 本地存储 ====================
+      function saveWorld() {
+        localStorage.setItem(SAVE_PREFIX + currentSaveId, JSON.stringify(world));
+        localStorage.setItem(CURRENT_SAVE_KEY, currentSaveId);
+      }
+
+      function loadWorld(id) {
+        currentSaveId = id;
+        const data = localStorage.getItem(SAVE_PREFIX + id);
+        if (data) {
+          world = JSON.parse(data);
+        } else {
+          initWorld();
+        }
+        renderWorld();
+        renderMinimap();
+      }
+
+      // ==================== 小地图 ====================
+      function renderMinimap() {
+        const canvas = document.getElementById('minimap');
+        const ctx = canvas.getContext('2d');
+        const size = canvas.width;
+        const cell = size / SIZE;
+        ctx.clearRect(0, 0, size, size);
+
+        for (let x = 0; x < SIZE; x++) {
+          for (let z = 0; z < SIZE; z++) {
+            const c = world[x][z];
+            let color = '#4caf50';
+            if (c.terrain === 'road') color = '#8d6e63';
+            if (c.terrain === 'water') color = '#2196f3';
+            if (c.terrain === 'stone') color = '#757575';
+            ctx.fillStyle = color;
+            ctx.fillRect(x * cell, z * cell, cell - 1, cell - 1);
+
+            if (c.kind === 'tree') {
+              ctx.fillStyle = '#1b5e20';
+              ctx.beginPath();
+              ctx.arc(x * cell + cell / 2, z * cell + cell / 2, cell / 3, 0, Math.PI * 2);
+              ctx.fill();
+            }
+            if (c.kind === 'house') {
+              ctx.fillStyle = '#d32f2f';
+              ctx.fillRect(x * cell + cell / 4, z * cell + cell / 4, cell / 2, cell / 2);
+            }
+          }
+        }
+      }
+
+      // ==================== 相机控制 ====================
+      function updateCamera() {
+        const cx = Math.sin(cameraAngleY) * Math.cos(cameraAngleX) * cameraDistance;
+        const cy = Math.sin(cameraAngleX) * cameraDistance;
+        const cz = Math.cos(cameraAngleY) * Math.cos(cameraAngleX) * cameraDistance;
+        camera.position.set(cx, cy + 2, cz);
+        camera.lookAt(0, 1, 0);
+      }
+
+      // ==================== 交互 ====================
+      function setupInteractions() {
+        const rendererDom = renderer.domElement;
+
+        rendererDom.addEventListener('mousedown', e => {
+          if (e.button === 0) {
+            isDragging = true;
+            lastX = e.clientX;
+            lastY = e.clientY;
+          }
+        });
+
+        rendererDom.addEventListener('mousemove', e => {
+          if (isDragging) {
+            const dx = e.clientX - lastX;
+            const dy = e.clientY - lastY;
+            cameraAngleY += dx * 0.005;
+            cameraAngleX = Math.max(0.1, Math.min(Math.PI / 2.5, cameraAngleX - dy * 0.005));
+            lastX = e.clientX;
+            lastY = e.clientY;
+            updateCamera();
+          }
+
+          mouse.x = (e.clientX / window.innerWidth) * 2 - 1;
+          mouse.y = -(e.clientY / window.innerHeight) * 2 + 1;
+          raycaster.setFromCamera(mouse, camera);
+          const intersects = raycaster.intersectObject(planeMesh);
+          if (intersects.length > 0) {
+            const p = intersects[0].point;
+            const x = Math.floor(p.x + SIZE / 2);
+            const z = Math.floor(p.z + SIZE / 2);
+            if (x >= 0 && x < SIZE && z >= 0 && z < SIZE) {
+              hoverPlane.position.x = x - SIZE / 2 + 0.5;
+              hoverPlane.position.z = z - SIZE / 2 + 0.5;
+            }
+          }
+        });
+
+        rendererDom.addEventListener('mouseup', () => {
+          isDragging = false;
+        });
+
+        rendererDom.addEventListener('wheel', e => {
+          cameraDistance = Math.max(6, Math.min(20, cameraDistance + e.deltaY * 0.01));
+          updateCamera();
+        });
+
+        rendererDom.addEventListener('click', () => {
+          if (isDragging) return;
+          raycaster.setFromCamera(mouse, camera);
+          const intersects = raycaster.intersectObject(planeMesh);
+          if (intersects.length > 0) {
+            const p = intersects[0].point;
+            const x = Math.floor(p.x + SIZE / 2);
+            const z = Math.floor(p.z + SIZE / 2);
+            if (x < 0 || x >= SIZE || z < 0 || z >= SIZE) return;
+
+            if (currentTool === 'erase') {
+              setCell(x, z, 'grass', null);
+            } else if (currentTool === 'grass' || currentTool === 'road' || currentTool === 'water' || currentTool === 'stone') {
+              setCell(x, z, currentTool, null);
+            } else if (currentTool === 'tree') {
+              setCell(x, z, 'grass', 'tree');
+            } else if (currentTool === 'house') {
+              setCell(x, z, 'grass', 'house');
+            }
+          }
+        });
+
+        // 工具切换
+        document.querySelectorAll('.tool').forEach(el => {
+          el.addEventListener('click', () => {
+            document.querySelectorAll('.tool').forEach(t => t.classList.remove('active'));
+            el.classList.add('active');
+            currentTool = el.dataset.type;
+          });
+        });
+
+        // 存档切换
+        document.getElementById('save-select').addEventListener('change', e => {
+          loadWorld(e.target.value);
+        });
+
+        // 重置随机村庄
+        document.getElementById('reset-btn').addEventListener('click', () => {
+          generateVillage();
+        });
+
+        // 清空世界
+        document.getElementById('clear-btn').addEventListener('click', () => {
+          initWorld();
+          renderWorld();
+          saveWorld();
+          renderMinimap();
+        });
+      }
+
+      // ==================== 启动 ====================
+      function animate() {
+        requestAnimationFrame(animate);
+        renderer.render(scene, camera);
+      }
+
+      function start() {
+        initScene();
+        initWorld();
+        const lastSave = localStorage.getItem(CURRENT_SAVE_KEY) || '1';
+        document.getElementById('save-select').value = lastSave;
+        loadWorld(lastSave);
+        setupInteractions();
+        updateCamera();
+        animate();
+        renderMinimap();
+
+        // 提示淡出
+        setTimeout(() => {
+          document.getElementById('toast').classList.add('fade');
+        }, 3000);
+      }
+
+      window.addEventListener('load', start);
+    })();
+  </script>
+</body>
+
+</html>
