@@ -1,0 +1,19 @@
+{
+    "users":[
+    {
+        "id":1,
+        "name":"赖逸豪",
+        "hometown":"赣州"
+    },
+    {
+        "id":2,
+        "name":"张训图",
+        "hometown":"秦皇岛"
+    },
+    {
+        "id":3,
+        "name":"lianghao",
+        "hometown":"赣州"
+    }
+    ]
+}
