@@ -28,7 +28,7 @@
     http://localhost:3000/users 
     http://localhost:3000/books 
     http://localhost:3000/posts
-        http://localhost:3000/posts/:id  某篇文章
+    http://localhost:3000/posts/:id  某篇文章
     
     - http的动作 
         CRUD 
@@ -52,9 +52,9 @@
 ## 前端 
 - 前端三剑客 模块化 
     html 网页结构
-
     css 样式
     js  行为
+    
 ### html
 - 盒子
     块级的能力  宽高 
