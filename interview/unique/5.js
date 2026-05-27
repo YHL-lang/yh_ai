@@ -5,7 +5,7 @@
  * @author yh
  * @date 2026-05-27
  */
-//hash表法
+//利用对象属性的唯一性
 function unique(arr) {
 //参数校验 不是数组，返回空数组
     if (!Array.isArray(arr)) {
