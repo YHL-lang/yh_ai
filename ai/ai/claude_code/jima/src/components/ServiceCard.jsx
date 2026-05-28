@@ -5,7 +5,7 @@ const item = {
   show: { opacity: 1, y: 0 },
 };
 
-export default function ServiceCard({ icon, title, description, index }) {
+export default function ServiceCard({ icon, title, description }) {
   return (
     <motion.div
       variants={item}

@@ -58,8 +58,8 @@ export default function Portfolio() {
         viewport={{ once: true }}
         key={activeFilter}
       >
-        {filtered.map((p, i) => (
-          <ProjectCard key={p.title} {...p} index={i} />
+        {filtered.map((p) => (
+          <ProjectCard key={p.title} {...p} />
         ))}
       </motion.div>
     </div>

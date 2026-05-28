@@ -1,5 +1,5 @@
 import { Link } from 'react-scroll';
-import { FaArrowUp, FaGithub } from 'react-icons/fa';
+import { FaGithub } from 'react-icons/fa';
 import { SiBilibili } from 'react-icons/si';
 import { MdEmail } from 'react-icons/md';
 

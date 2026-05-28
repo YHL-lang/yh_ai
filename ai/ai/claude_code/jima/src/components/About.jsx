@@ -31,8 +31,13 @@ export default function About() {
           transition={{ duration: 0.6 }}
         >
           <div className="absolute inset-0 bg-gradient-to-br from-brand-cyan/20 to-brand-purple/20 rounded-2xl border-2 border-brand-cyan/30 animate-glow" />
-          <div className="absolute inset-2 rounded-2xl bg-brand-card flex items-center justify-center">
-            <span className="text-6xl gradient-text font-bold">JM</span>
+          <div className="absolute inset-2 rounded-2xl overflow-hidden">
+            <img
+              src="https://picsum.photos/seed/jima/400/400"
+              alt="吉马"
+              className="w-full h-full object-cover"
+              loading="lazy"
+            />
           </div>
         </motion.div>
 

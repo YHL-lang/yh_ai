@@ -31,8 +31,8 @@ export default function Services() {
         whileInView="show"
         viewport={{ once: true }}
       >
-        {services.map((s, i) => (
-          <ServiceCard key={s.title} {...s} index={i} />
+        {services.map((s) => (
+          <ServiceCard key={s.title} {...s} />
         ))}
       </motion.div>
     </div>

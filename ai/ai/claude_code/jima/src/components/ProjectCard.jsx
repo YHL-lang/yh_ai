@@ -12,12 +12,12 @@ const typeBadgeColors = {
   项目: 'bg-purple-500/20 text-purple-400',
 };
 
-export default function ProjectCard({ title, type, tags, imageUrl, link, index }) {
+export default function ProjectCard({ title, type, tags, imageUrl, link }) {
   return (
     <motion.div variants={item} className="glass overflow-hidden group cursor-pointer">
       <div className="h-40 bg-card-gradient relative overflow-hidden">
         {imageUrl ? (
-          <img src={imageUrl} alt={title} className="w-full h-full object-cover" />
+          <img src={imageUrl} alt={title} className="w-full h-full object-cover" loading="lazy" decoding="async" />
         ) : (
           <div className="w-full h-full flex items-center justify-center">
             <span className="text-4xl gradient-text font-bold opacity-30">JM</span>
