@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        // 创建一个空对象
+        // Object 是顶层对象
+        // Object
+        // const zzd =new Object();
+        // console.log(zzd);
+        function Person(name,age){
+            // 构造实例的，实例私有的
+            console.log(this);
+            this.name=name;
+            this.age=age;
+        }
+        // Person 的原型对象 原型对象上的方法是公用的
+        Person.prototype.poem = '仁义礼智信';
+        Person.prototype.say = function()
+        {
+            console.log('我叫'+this.name+',很高兴认识你');
+        }
+        Person.prototype.timeMF = function()
+        {
+            console.log('时间管理法');
+        }
+        const yhl = new  Person('yhl',18);
+        console.log(yhl.toString());
+        yhl.say();
+        yhl.timeMF();
+        console.log(yhl.age());
+    </script>
+</body>
+</html>

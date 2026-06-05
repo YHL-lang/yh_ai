@@ -13,4 +13,4 @@ console.log(typeof reg); //类型  对象object
 console.log(reg.test(str)); //true//let str = '13888888888';
 //console.log(reg.test(str)); //false//let str = '138888888';少一个8
 //console.log(reg.test(str)); //false//let str = '13888888888ss';$表示字符串的结束
-//console.log(reg.test(str)); //false//let str = '13888888888ss';^表示字符串的开始
+//console.log(reg.test(str)); //false//let str = 'aa13888888888';^表示字符串的开始
