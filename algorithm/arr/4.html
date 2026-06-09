@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+  <script>
+    const arr = [6, 8, 12, 15];
+    console.log(arr.map((item, index, self) => {
+      return item * 2;
+    }));
+    console.log(arr);
+    console.log(arr.filter((item) => {
+      return item % 2 === 0;
+    }));
+    console.log(arr.every((item) => {
+      return item % 2 === 0;
+    }));
+    console.log(arr.some((item) => {
+      return item % 2 === 0;
+    }));
+    console.log(arr.reduce((pre, item, index) => {
+      console.log(pre, item, index);
+      return pre + item;
+    }, 0));//0 init_value
+  </script>
+</body>
+
+</script>
+</body>
+
+</html>
