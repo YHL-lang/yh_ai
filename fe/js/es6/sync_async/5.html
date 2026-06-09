@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+  <script>
+    function sleep(t) {
+      const p = new Promise((resolve, reject) => {
+        console.log('同步');
+        setTimeout(() => {
+          resolve();
+        }, t);
+      });
+      return p;
+    }
+    // js系统不支持sleep功能
+    sleep(2000)
+      .then(() => {
+        console.log('2000ms后执行');
+      })
+  </script>
+</body>
+
+</html>
