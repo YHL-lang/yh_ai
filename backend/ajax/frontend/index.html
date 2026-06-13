@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+  <ul id="todo"></ul>
+  <button id="btn">获取todo</button>
+  <script>
+    // 事件的注册
+    document.getElementById('btn')
+      .addEventListener('click', () => {
+        // 发起http请求
+        console.log('点击按钮');
+        // fetch 的前辈
+        // 底层本质是js 可以主动的去发起接口http请求，当前页面还在
+        // fetch/xhr 请求接口，动态的更新页面 web2.0时代 繁荣
+        const xhr = new XMLHttpRequest(); // 实例化一个xhr 对象
+        // 打开一个http 通道
+        // 异步请求
+        xhr.open('GET', 'http://localhost:3000/todo', true); // 配置请求
+        // 监听响应
+        // 回调函数 callback
+        xhr.onreadystatechange = function () {
+          console.log(xhr.readyState);
+          if (xhr.readyState === 4 && xhr.status === 200) {
+            const todo = JSON.parse(xhr.responseText);
+            document.getElementById('todo').
+              innerHTML = todo.map(todo => `<li>${todo.title}</li>`).join('');
+          }
+        }
+        xhr.send(); // 发送请求
+      })
+  </script>
+</body>
+
+</html>
