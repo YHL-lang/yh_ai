@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ajax — Fetch + async/await</title>
+  <style>
+    body {
+      font-family: system-ui, sans-serif;
+      max-width: 400px;
+      margin: 50px auto;
+      padding: 0 16px;
+    }
+    #todo {
+      list-style: none;
+      padding: 0;
+    }
+    #todo li {
+      padding: 10px 14px;
+      margin: 6px 0;
+      background: #f5f5f5;
+      border-radius: 6px;
+      font-size: 15px;
+    }
+    button {
+      padding: 10px 24px;
+      font-size: 15px;
+      cursor: pointer;
+    }
+  </style>
+</head>
+
+<body>
+  <h2>📋 任务清单</h2>
+  <ul id="todo"></ul>
+  <button id="btn">获取 Todo（Fetch 版）</button>
+
+  <script>
+    // fetch + async/await — 现代 Ajax 写法
+    // 比 XHR 更简洁，代码量少近一半，逻辑更线性
+    document.getElementById('btn')
+      .addEventListener('click', async () => {
+        try {
+          // fetch 返回 Promise，await 等待请求完成
+          const response = await fetch('http://localhost:3000/todo');
+
+          // response.json() 自动将 JSON 字符串解析为 JS 对象
+          const todos = await response.json();
+
+          // 动态渲染列表
+          document.getElementById('todo')
+            .innerHTML = todos
+              .map(todo => `<li>${todo.title}</li>`)
+              .join('');
+        } catch (error) {
+          console.error('请求失败:', error);
+          document.getElementById('todo')
+            .innerHTML = '<li style="color:red">加载失败，请确认后端已启动</li>';
+        }
+      });
+  </script>
+</body>
+
+</html>
