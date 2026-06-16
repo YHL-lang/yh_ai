@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<style>
+  * {
+    margin: 0;
+    padding: 0;
+  }
+
+  .box {
+    /* 弹性布局的子元素们 默认会主轴对齐  被父元素控制
+    父与子之间的布局关系
+    开启了新的格式化上下文
+    */
+    display: flex;
+    /* flex-direction: row; */
+  }
+
+  .item {
+    flex: 1;
+    background-color: red;
+    text-align: center;
+  }
+</style>
+
+<body>
+  <div class="box">
+    <div class="item">1</div>
+    <div class="item">2</div>
+    <div class="item">3</div>
+    <div class="item">4</div>
+  </div>
+</body>
+
+</html>
