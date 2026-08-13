@@ -8,12 +8,21 @@ importers:
 
   .:
     dependencies:
+      '@langchain/classic':
+        specifier: ^1.0.41
+        version: 1.0.41(@langchain/core@1.2.6(openai@6.49.0(zod@4.4.3)))(cheerio@1.2.0)(openai@6.49.0(zod@4.4.3))
       '@langchain/community':
         specifier: ^1.1.29
-        version: 1.1.29(@browserbasehq/stagehand@1.0.1(@playwright/test@1.62.0)(deepmerge@4.3.1)(dotenv@17.4.2)(openai@6.49.0(zod@4.4.3))(zod@4.4.3))(@ibm-cloud/watsonx-ai@1.7.15)(@langchain/core@1.2.3(openai@6.49.0(zod@4.4.3)))(cheerio@1.2.0)(ibm-cloud-sdk-core@5.6.0)(jsonwebtoken@9.0.3)(openai@6.49.0(zod@4.4.3))(playwright@1.62.0)
+        version: 1.1.29(@browserbasehq/stagehand@1.0.1(@playwright/test@1.62.0)(deepmerge@4.3.1)(dotenv@17.4.2)(openai@6.49.0(zod@4.4.3))(zod@4.4.3))(@ibm-cloud/watsonx-ai@1.7.15)(@langchain/core@1.2.6(openai@6.49.0(zod@4.4.3)))(cheerio@1.2.0)(ibm-cloud-sdk-core@5.6.0)(jsonwebtoken@9.0.3)(openai@6.49.0(zod@4.4.3))(playwright@1.62.0)
+      '@langchain/core':
+        specifier: ^1.2.6
+        version: 1.2.6(openai@6.49.0(zod@4.4.3))
+      '@langchain/openai':
+        specifier: ^1.5.6
+        version: 1.5.6(@langchain/core@1.2.6(openai@6.49.0(zod@4.4.3)))
       '@langchain/textsplitters':
         specifier: ^1.0.1
-        version: 1.0.1(@langchain/core@1.2.3(openai@6.49.0(zod@4.4.3)))
+        version: 1.0.1(@langchain/core@1.2.6(openai@6.49.0(zod@4.4.3)))
       axios:
         specifier: ^1.19.0
         version: 1.19.0
@@ -173,6 +182,22 @@ packages:
     engines: {node: '>=20'}
     peerDependencies:
       '@langchain/core': ^1.2.2
+      cheerio: '*'
+      peggy: ^5.1.0
+      typeorm: '*'
+    peerDependenciesMeta:
+      cheerio:
+        optional: true
+      peggy:
+        optional: true
+      typeorm:
+        optional: true
+
+  '@langchain/classic@1.0.41':
+    resolution: {integrity: sha512-m6uIp6qrS/D/QKUvE0M/FZ7gm6g4khXzWROh0clYaDjmb3q+kUuNWdAthHFB6c4Gd7PY4O6jKGj8qMqhceaDGw==}
+    engines: {node: '>=20'}
+    peerDependencies:
+      '@langchain/core': ^1.2.5
       cheerio: '*'
       peggy: ^5.1.0
       typeorm: '*'
@@ -550,8 +575,8 @@ packages:
       youtubei.js:
         optional: true
 
-  '@langchain/core@1.2.3':
-    resolution: {integrity: sha512-F+L5SsciykwDl7eDxacnhDTcWe1IF6jetzfkvI5PPfq6ogWHO7xcjU90SGh/3lqbbS0tgun+qF01KIqxawrCsA==}
+  '@langchain/core@1.2.6':
+    resolution: {integrity: sha512-4bjxSLx/w7rrIY0YmjIDfrvwwz4UQNHGccH3KGREvqIQkJbtfSDEGOaiA1jzyUwsNmhNu0Z2uqvWBt6RPVg3oQ==}
     engines: {node: '>=20'}
 
   '@langchain/openai@1.5.5':
@@ -559,6 +584,12 @@ packages:
     engines: {node: '>=20'}
     peerDependencies:
       '@langchain/core': ^1.2.2
+
+  '@langchain/openai@1.5.6':
+    resolution: {integrity: sha512-1cesvhCXw30tMYWXXQaK2gN4aDIKq266LcMSjZn7O/kue/vPnCOAxiwy54HcGQQf7m/sVKfhOn4QwVRObSeAsg==}
+    engines: {node: '>=20'}
+    peerDependencies:
+      '@langchain/core': ^1.2.5
 
   '@langchain/textsplitters@1.0.1':
     resolution: {integrity: sha512-rheJlB01iVtrOUzttscutRgLybPH9qR79EyzBEbf1u97ljWyuxQfCwIWK+SjoQTM9O8M7GGLLRBSYE26Jmcoww==}
@@ -1299,11 +1330,11 @@ snapshots:
   '@img/sharp-win32-x64@0.33.5':
     optional: true
 
-  '@langchain/classic@1.0.40(@langchain/core@1.2.3(openai@6.49.0(zod@4.4.3)))(cheerio@1.2.0)(openai@6.49.0(zod@4.4.3))':
+  '@langchain/classic@1.0.40(@langchain/core@1.2.6(openai@6.49.0(zod@4.4.3)))(cheerio@1.2.0)(openai@6.49.0(zod@4.4.3))':
     dependencies:
-      '@langchain/core': 1.2.3(openai@6.49.0(zod@4.4.3))
-      '@langchain/openai': 1.5.5(@langchain/core@1.2.3(openai@6.49.0(zod@4.4.3)))
-      '@langchain/textsplitters': 1.0.1(@langchain/core@1.2.3(openai@6.49.0(zod@4.4.3)))
+      '@langchain/core': 1.2.6(openai@6.49.0(zod@4.4.3))
+      '@langchain/openai': 1.5.5(@langchain/core@1.2.6(openai@6.49.0(zod@4.4.3)))
+      '@langchain/textsplitters': 1.0.1(@langchain/core@1.2.6(openai@6.49.0(zod@4.4.3)))
       handlebars: 4.7.9
       js-yaml: 5.2.2
       jsonpointer: 5.0.1
@@ -1323,13 +1354,37 @@ snapshots:
       - openai
       - ws
 
-  '@langchain/community@1.1.29(@browserbasehq/stagehand@1.0.1(@playwright/test@1.62.0)(deepmerge@4.3.1)(dotenv@17.4.2)(openai@6.49.0(zod@4.4.3))(zod@4.4.3))(@ibm-cloud/watsonx-ai@1.7.15)(@langchain/core@1.2.3(openai@6.49.0(zod@4.4.3)))(cheerio@1.2.0)(ibm-cloud-sdk-core@5.6.0)(jsonwebtoken@9.0.3)(openai@6.49.0(zod@4.4.3))(playwright@1.62.0)':
+  '@langchain/classic@1.0.41(@langchain/core@1.2.6(openai@6.49.0(zod@4.4.3)))(cheerio@1.2.0)(openai@6.49.0(zod@4.4.3))':
+    dependencies:
+      '@langchain/core': 1.2.6(openai@6.49.0(zod@4.4.3))
+      '@langchain/openai': 1.5.6(@langchain/core@1.2.6(openai@6.49.0(zod@4.4.3)))
+      '@langchain/textsplitters': 1.0.1(@langchain/core@1.2.6(openai@6.49.0(zod@4.4.3)))
+      handlebars: 4.7.9
+      js-yaml: 5.2.2
+      jsonpointer: 5.0.1
+      openapi-types: 12.1.3
+      yaml: 2.9.0
+      zod: 4.4.3
+    optionalDependencies:
+      cheerio: 1.2.0
+      langsmith: 0.8.7(openai@6.49.0(zod@4.4.3))
+    transitivePeerDependencies:
+      - '@aws-sdk/credential-provider-node'
+      - '@opentelemetry/api'
+      - '@opentelemetry/exporter-trace-otlp-proto'
+      - '@opentelemetry/sdk-trace-base'
+      - '@smithy/hash-node'
+      - '@smithy/signature-v4'
+      - openai
+      - ws
+
+  '@langchain/community@1.1.29(@browserbasehq/stagehand@1.0.1(@playwright/test@1.62.0)(deepmerge@4.3.1)(dotenv@17.4.2)(openai@6.49.0(zod@4.4.3))(zod@4.4.3))(@ibm-cloud/watsonx-ai@1.7.15)(@langchain/core@1.2.6(openai@6.49.0(zod@4.4.3)))(cheerio@1.2.0)(ibm-cloud-sdk-core@5.6.0)(jsonwebtoken@9.0.3)(openai@6.49.0(zod@4.4.3))(playwright@1.62.0)':
     dependencies:
       '@browserbasehq/stagehand': 1.0.1(@playwright/test@1.62.0)(deepmerge@4.3.1)(dotenv@17.4.2)(openai@6.49.0(zod@4.4.3))(zod@4.4.3)
       '@ibm-cloud/watsonx-ai': 1.7.15
-      '@langchain/classic': 1.0.40(@langchain/core@1.2.3(openai@6.49.0(zod@4.4.3)))(cheerio@1.2.0)(openai@6.49.0(zod@4.4.3))
-      '@langchain/core': 1.2.3(openai@6.49.0(zod@4.4.3))
-      '@langchain/openai': 1.5.5(@langchain/core@1.2.3(openai@6.49.0(zod@4.4.3)))
+      '@langchain/classic': 1.0.40(@langchain/core@1.2.6(openai@6.49.0(zod@4.4.3)))(cheerio@1.2.0)(openai@6.49.0(zod@4.4.3))
+      '@langchain/core': 1.2.6(openai@6.49.0(zod@4.4.3))
+      '@langchain/openai': 1.5.6(@langchain/core@1.2.6(openai@6.49.0(zod@4.4.3)))
       binary-extensions: 2.3.0
       flat: 5.0.2
       ibm-cloud-sdk-core: 5.6.0
@@ -1350,7 +1405,7 @@ snapshots:
       - '@smithy/hash-node'
       - peggy
 
-  '@langchain/core@1.2.3(openai@6.49.0(zod@4.4.3))':
+  '@langchain/core@1.2.6(openai@6.49.0(zod@4.4.3))':
     dependencies:
       '@cfworker/json-schema': 4.1.1
       '@standard-schema/spec': 1.1.0
@@ -1366,9 +1421,9 @@ snapshots:
       - openai
       - ws
 
-  '@langchain/openai@1.5.5(@langchain/core@1.2.3(openai@6.49.0(zod@4.4.3)))':
+  '@langchain/openai@1.5.5(@langchain/core@1.2.6(openai@6.49.0(zod@4.4.3)))':
     dependencies:
-      '@langchain/core': 1.2.3(openai@6.49.0(zod@4.4.3))
+      '@langchain/core': 1.2.6(openai@6.49.0(zod@4.4.3))
       js-tiktoken: 1.0.21
       openai: 6.49.0(zod@4.4.3)
       zod: 4.4.3
@@ -1378,9 +1433,21 @@ snapshots:
       - '@smithy/signature-v4'
       - ws
 
-  '@langchain/textsplitters@1.0.1(@langchain/core@1.2.3(openai@6.49.0(zod@4.4.3)))':
+  '@langchain/openai@1.5.6(@langchain/core@1.2.6(openai@6.49.0(zod@4.4.3)))':
     dependencies:
-      '@langchain/core': 1.2.3(openai@6.49.0(zod@4.4.3))
+      '@langchain/core': 1.2.6(openai@6.49.0(zod@4.4.3))
+      js-tiktoken: 1.0.21
+      openai: 6.49.0(zod@4.4.3)
+      zod: 4.4.3
+    transitivePeerDependencies:
+      - '@aws-sdk/credential-provider-node'
+      - '@smithy/hash-node'
+      - '@smithy/signature-v4'
+      - ws
+
+  '@langchain/textsplitters@1.0.1(@langchain/core@1.2.6(openai@6.49.0(zod@4.4.3)))':
+    dependencies:
+      '@langchain/core': 1.2.6(openai@6.49.0(zod@4.4.3))
       js-tiktoken: 1.0.21
 
   '@playwright/test@1.62.0':
