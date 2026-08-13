@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>豪豪AI日报 · 2026年8月13日</title>
+<style>
+  :root {
+    --bg: #f6f7fb;
+    --card: #ffffff;
+    --ink: #1a1d29;
+    --ink-soft: #5b6172;
+    --line: #e8eaf0;
+    --accent: #4f46e5;
+    --accent-2: #7c3aed;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC",
+      "Microsoft YaHei", "Hiragino Sans GB", sans-serif;
+    background: var(--bg);
+    color: var(--ink);
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+  }
+  .wrap { max-width: 1080px; margin: 0 auto; padding: 0 20px 64px; }
+
+  /* 顶部横幅 */
+  header.hero {
+    background: linear-gradient(120deg, var(--accent) 0%, var(--accent-2) 100%);
+    color: #fff;
+    padding: 48px 24px 56px;
+    border-radius: 0 0 24px 24px;
+    text-align: center;
+    margin-bottom: 28px;
+  }
+  .hero h1 {
+    font-size: 34px;
+    letter-spacing: 1px;
+    font-weight: 700;
+    margin-bottom: 8px;
+  }
+  .hero .date { font-size: 15px; opacity: 0.9; }
+  .hero .sub { font-size: 14px; opacity: 0.8; margin-top: 6px; }
+
+  /* 统计条 */
+  .stats {
+    display: flex; flex-wrap: wrap; gap: 12px;
+    justify-content: center; margin-bottom: 28px;
+  }
+  .stat {
+    background: var(--card); border: 1px solid var(--line);
+    border-radius: 12px; padding: 10px 18px; font-size: 13px;
+    color: var(--ink-soft); box-shadow: 0 1px 2px rgba(0,0,0,.03);
+  }
+  .stat b { color: var(--ink); font-size: 16px; margin-right: 4px; }
+
+  /* 卡片网格 */
+  .grid {
+    display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: 20px;
+  }
+  a.card {
+    display: flex; flex-direction: column; gap: 12px;
+    background: var(--card); border: 1px solid var(--line);
+    border-radius: 16px; padding: 22px;
+    text-decoration: none; color: inherit;
+    box-shadow: 0 1px 3px rgba(0,0,0,.04);
+    transition: transform .18s ease, box-shadow .18s ease, border-color .18s ease;
+  }
+  a.card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 28px rgba(79, 70, 229, .12);
+    border-color: #d6d3f5;
+  }
+  .card .top { display: flex; align-items: center; gap: 10px; }
+  .badge {
+    font-size: 11px; font-weight: 600; padding: 3px 10px;
+    border-radius: 999px; color: #fff; white-space: nowrap;
+  }
+  .badge.hn { background: #ff6600; }
+  .badge.tc { background: #0a9b3f; }
+  .badge.verge { background: #2563eb; }
+  .card .points { font-size: 12px; color: var(--ink-soft); margin-left: auto; }
+  .card h2 { font-size: 17px; font-weight: 650; line-height: 1.4; }
+  .card p.summary { font-size: 14px; color: var(--ink-soft); flex: 1; }
+  .tags { display: flex; flex-wrap: wrap; gap: 8px; }
+  .tag {
+    font-size: 12px; color: var(--accent);
+    background: #eef0ff; border-radius: 8px; padding: 3px 9px;
+  }
+  .more { font-size: 13px; color: var(--accent); font-weight: 600; }
+  .more .arrow { transition: transform .18s ease; display: inline-block; }
+  a.card:hover .more .arrow { transform: translateX(3px); }
+
+  footer { text-align: center; color: #a6abc0; font-size: 12px; margin-top: 44px; }
+  .empty { text-align: center; color: var(--ink-soft); padding: 60px 0; }
+</style>
+</head>
+<body>
+<header class="hero">
+  <h1>豪豪AI日报</h1>
+  <div class="date">2026年8月13日</div>
+  <div class="sub">精选近 24 小时 AI 行业资讯，用最少的时间掌握最新动态</div>
+</header>
+
+<div class="wrap">
+  <div class="stats" id="stats"></div>
+  <div class="grid" id="grid"></div>
+  <footer>数据来源：TechCrunch · The Verge · Hacker News&nbsp;&nbsp;|&nbsp;&nbsp;点击卡片查看原文</footer>
+</div>
+
+<script>
+  const NEWS = [{"title": "AI is removing the middle class of software engineering?", "title_zh": "AI 正在淘汰软件工程师的「中产阶层」？", "url": "https://blog.florianherrengt.com/ai-removing-middle-class-software-engineering.html", "source": "Hacker News", "published_at": "2026-08-12T13:20:05+00:00", "points": 882, "summary": "一篇高热度文章提出 AI 正在冲击软件工程师的中间阶层，引发对 AI 时代程序员职业前景与行业结构的广泛讨论。", "tags": ["职业影响", "软件工程", "行业讨论"]}, {"title": "Someone is running mass vulnerability scans, spoofing AI bots like ClaudeBot", "title_zh": "有人伪装成 ClaudeBot 等 AI 爬虫做大规模漏洞扫描", "url": "https://knownagents.com/insights", "source": "Hacker News", "published_at": "2026-08-12T14:02:46+00:00", "points": 277, "summary": "有攻击者伪装成 ClaudeBot 等 AI 爬虫对全网进行大规模漏洞扫描，利用 AI 爬虫的合法性外衣隐藏恶意扫描行为，引发安全警示。", "tags": ["安全", "AI 爬虫", "漏洞扫描"]}, {"title": "ChatGPT Desktop (Codex Desktop) for Linux", "title_zh": "ChatGPT 桌面版（Codex Desktop）登陆 Linux", "url": "https://openai.com/codex/", "source": "Hacker News", "published_at": "2026-08-13T04:53:41+00:00", "points": 131, "summary": "OpenAI 正式发布 Linux 版 ChatGPT/Codex 桌面应用，补上桌面端最后一块平台拼图，让更多开发者能在本地直接使用 Codex 的编程与对话能力。", "tags": ["OpenAI", "桌面应用", "开发者工具"]}, {"title": "AI coding startup Cognition reportedly already in talks to raise at $40B valuation", "title_zh": "AI 编程初创 Cognition 洽谈 400 亿美元估值融资", "url": "https://techcrunch.com/2026/08/12/ai-coding-startup-cognition-reportedly-already-in-talks-to-raise-at-40b-valuation/", "source": "TechCrunch", "published_at": "2026-08-12T18:19:12+00:00", "points": 0, "summary": "开发 AI 编程助手 Devin 的 Cognition 被曝正洽谈新一轮融资，估值高达 400 亿美元，反映资本对 AI 编码赛道的高度热情。", "tags": ["融资", "AI 编程", "Cognition"]}, {"title": "Lovable confirms new $13.3B valuation, raises another $400M", "title_zh": "Lovable 确认 133 亿美元估值，再融 4 亿美元", "url": "https://techcrunch.com/2026/08/12/lovable-confirms-new-13-3b-valuation-raises-another-400m/", "source": "TechCrunch", "published_at": "2026-08-12T16:04:27+00:00", "points": 0, "summary": "AI 应用构建平台 Lovable 确认估值升至 133 亿美元，并再度融资 4 亿美元，印证 AI 应用开发工具赛道的火爆。", "tags": ["融资", "AI 应用", "Lovable"]}, {"title": "OpenAI-backed Thrive Holdings raises $2B to bring AI to the enterprise", "title_zh": "OpenAI 支持的 Thrive Holdings 融资 20 亿美元布局企业 AI", "url": "https://techcrunch.com/2026/08/12/openai-backed-thrive-holdings-raises-2b-to-bring-ai-to-the-enterprise/", "source": "TechCrunch", "published_at": "2026-08-12T17:41:29+00:00", "points": 0, "summary": "获 OpenAI 支持的 Thrive Holdings 完成 20 亿美元融资，将用于把 AI 能力带入企业级市场，加速 AI 商业化落地。", "tags": ["融资", "企业 AI", "OpenAI"]}, {"title": "AI code-testing startup Blacksmith's valuation jumps almost 10x in less than a year", "title_zh": "AI 代码测试初创 Blacksmith 估值一年飙升近 10 倍", "url": "https://techcrunch.com/2026/08/12/blacksmiths-valuation-jumps-10x-to-550m-as-ai-coding-fuels-software-validation/", "source": "TechCrunch", "published_at": "2026-08-12T11:00:00+00:00", "points": 0, "summary": "AI 代码测试初创 Blacksmith 估值不到一年涨近 10 倍至 5.5 亿美元，反映 AI 编码基础设施需求旺盛。", "tags": ["融资", "AI 测试", "编码工具"]}, {"title": "Some Claude users are mad that Anthropic's new watermarks will catch them using it at their jobs, classes", "title_zh": "Anthropic 为 Claude 输出加隐形水印，引发部分用户不满", "url": "https://techcrunch.com/2026/08/12/some-claude-users-are-mad-that-anthropics-new-watermarks-will-catch-them-cheating-at-their-jobs-classes/", "source": "TechCrunch", "published_at": "2026-08-12T22:26:37+00:00", "points": 0, "summary": "Anthropic 在 Claude 生成内容中加入隐形水印以便溯源，部分用户担忧其影响工作与学习场景的使用，引发社区争议。", "tags": ["Anthropic", "AI 安全", "水印"]}, {"title": "Amazon will train on Twitch streamers' content by default, unless they opt out", "title_zh": "亚马逊默认用 Twitch 主播内容训练 AI，需手动退出", "url": "https://techcrunch.com/2026/08/12/amazon-will-train-on-twitch-streamers-content-by-default-unless-they-opt-out/", "source": "TechCrunch", "published_at": "2026-08-12T20:10:40+00:00", "points": 0, "summary": "亚马逊宣布默认抓取 Twitch 主播的直播内容用于训练其 AI 模型，主播需手动选择退出，隐私与版权问题引发广泛讨论。", "tags": ["Amazon", "数据训练", "隐私"]}, {"title": "Grok is now an AI 'teammate' you can assign work", "title_zh": "xAI 的 Grok 升级为可委派任务的 AI「队友」", "url": "https://www.theverge.com/ai-artificial-intelligence/978666/spacexai-grok-bot-ai-agent-beta-launch", "source": "The Verge", "published_at": "2026-08-12T11:58:54+00:00", "points": 0, "summary": "xAI 推出 Grok 智能体版本，用户可将任务委派给 Grok 像队友一样协作完成，标志 Grok 从聊天助手向智能体平台演进。", "tags": ["xAI", "Grok", "智能体"]}, {"title": "German advocacy group lodges criminal complaint over Meta AI glasses", "title_zh": "德国维权组织就 Meta AI 眼镜提起刑事投诉", "url": "https://www.reuters.com/legal/government/german-advocacy-group-lodges-criminal-complaint-over-meta-ai-glasses-2026-08-12/", "source": "Hacker News", "published_at": "2026-08-12T14:06:03+00:00", "points": 112, "summary": "德国一维权组织就 Meta 的 AI 眼镜提起刑事投诉，聚焦其采集与隐私合规问题，AI 穿戴设备的监管压力持续上升。", "tags": ["Meta", "AI 眼镜", "隐私监管"]}, {"title": "Hax - a minimalist, terminal-native coding agent written in C", "title_zh": "Hax：用 C 写的极简终端 AI 编程智能体", "url": "https://usehax.dev/", "source": "Hacker News", "published_at": "2026-08-12T14:43:45+00:00", "points": 101, "summary": "一个名为 Hax 的终端原生 AI 编程智能体登上 HN 热榜，以 C 语言实现、极简设计著称，主打轻量快速的本地编码体验。", "tags": ["开源", "AI 编程", "终端工具"]}, {"title": "Google's Pixel Watch 5 dives deeper into AI and health", "title_zh": "Pixel Watch 5 深度整合 AI 与健康功能", "url": "https://www.theverge.com/tech/978094/pixel-watch-5-hands-on-made-by-google-gemini-wearables-smartwatch", "source": "The Verge", "published_at": "2026-08-12T23:08:30+00:00", "points": 0, "summary": "谷歌发布 Pixel Watch 5，进一步把 Gemini 等 AI 能力与健康监测结合，强化可穿戴设备上的智能健康助手定位。", "tags": ["Google", "可穿戴", "健康 AI"]}, {"title": "Why Stream ring-maker Sandbar says the future of AI wearables is voice", "title_zh": "Sandbar 押注语音交互，能否摆脱 AI 硬件「墓地」诅咒", "url": "https://techcrunch.com/video/why-stream-ring-maker-sandbar-says-the-future-of-ai-wearables-is-voice/", "source": "TechCrunch", "published_at": "2026-08-12T16:46:02+00:00", "points": 0, "summary": "AI 可穿戴厂商 Sandbar 认为语音才是 AI 硬件的未来，其语音戒指试图在众多失败产品中走出一条差异化之路。", "tags": ["AI 硬件", "语音交互", "可穿戴"]}, {"title": "As AI safety concerns mount, three pioneers make the case for staying open", "title_zh": "AI 安全争议升温，三位先驱呼吁保持开放", "url": "https://techcrunch.com/2026/08/12/as-ai-safety-concerns-mount-three-pioneers-make-the-case-for-staying-open/", "source": "TechCrunch", "published_at": "2026-08-12T17:51:00+00:00", "points": 0, "summary": "面对日益升温的 AI 安全担忧，三位行业先驱公开主张保持开放路线，在安全与开源之间寻找平衡。", "tags": ["AI 安全", "开源", "行业观点"]}, {"title": "Of course the ChatGPT dog cancer vaccine spawned a startup", "title_zh": "ChatGPT 辅助研发的狗狗癌症疫苗催生新创公司", "url": "https://www.theverge.com/ai-artificial-intelligence/978671/ai-cured-dog-cancer-mrna-vaccine-startup-gamgee", "source": "The Verge", "published_at": "2026-08-12T16:26:04+00:00", "points": 0, "summary": "一个由 ChatGPT 参与研发的犬类癌症 mRNA 疫苗催生了新创公司，再次引发对 AI 加速生物医药研发的热议。", "tags": ["AI 制药", "生物医药", "创业"]}, {"title": "Guitar company D'Addario admits that AI music was used in a promotional video", "title_zh": "吉他厂商 D'Addario 承认宣传片使用 AI 音乐", "url": "https://www.theverge.com/ai-artificial-intelligence/978982/daddario-guitar-ai-music-suno", "source": "The Verge", "published_at": "2026-08-12T17:24:07+00:00", "points": 0, "summary": "吉他厂商 D'Addario 承认其宣传视频使用了 AI 生成音乐，引发关于 AI 音乐在商业用途中的边界与披露规范的讨论。", "tags": ["AI 音乐", "版权", "商业应用"]}];
+
+  const SOURCE_CLASS = {
+    "Hacker News": "hn",
+    "TechCrunch": "tc",
+    "The Verge": "verge"
+  };
+
+  function esc(s) {
+    return String(s ?? "").replace(/[&<>"']/g, c => ({
+      "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;"
+    }[c]));
+  }
+
+  function renderStats() {
+    const el = document.getElementById("stats");
+    const bySource = {};
+    NEWS.forEach(n => { bySource[n.source] = (bySource[n.source] || 0) + 1; });
+    el.innerHTML =
+      `<div class="stat"><b>${NEWS.length}</b>条精选资讯</div>` +
+      Object.entries(bySource).map(([s, c]) =>
+        `<div class="stat"><b>${c}</b>${esc(s)}</div>`).join("");
+  }
+
+  function renderCards() {
+    const grid = document.getElementById("grid");
+    if (!NEWS.length) {
+      grid.innerHTML = `<div class="empty">近 24 小时暂无符合条件的 AI 资讯，稍后再来看看～</div>`;
+      return;
+    }
+    grid.innerHTML = NEWS.map(n => {
+      const cls = SOURCE_CLASS[n.source] || "hn";
+      const tags = (n.tags || []).map(t => `<span class="tag">${esc(t)}</span>`).join("");
+      const points = n.points ? `<span class="points">▲ ${n.points}</span>` : "";
+      return `
+        <a class="card" href="${esc(n.url)}" target="_blank" rel="noopener">
+          <div class="top">
+            <span class="badge ${cls}">${esc(n.source)}</span>${points}
+          </div>
+          <h2>${esc(n.title_zh || n.title)}</h2>
+          <p class="summary">${esc(n.summary)}</p>
+          <div class="tags">${tags}</div>
+          <div class="more">查看原文 <span class="arrow">→</span></div>
+        </a>`;
+    }).join("");
+  }
+
+  renderStats();
+  renderCards();
+</script>
+</body>
+</html>
