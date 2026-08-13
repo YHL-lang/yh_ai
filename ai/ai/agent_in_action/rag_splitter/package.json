@@ -1,0 +1,20 @@
+{
+  "name": "rag_splitter",
+  "version": "1.0.0",
+  "description": "- 知识库 放的知识\r   知识的来源很多，一个word文档，一个pdf文件，一个bilibili视频，\r   一个url，一个挺靠谱的twitter\r   各种格式文件 -> 向量化前的Document?loader\r   不能直接创建一个Document对象\r   怎么处理一下？\r   Document？ langchain 提供的标准格式的文档 pageContent metadata\r   pageContent 文档的内容\r   metadata 文档的元数据",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "module",
+  "dependencies": {
+    "@langchain/community": "^1.1.29",
+    "@langchain/textsplitters": "^1.0.1",
+    "axios": "^1.19.0",
+    "cheerio": "^1.2.0",
+    "dotenv": "^17.4.2"
+  }
+}
