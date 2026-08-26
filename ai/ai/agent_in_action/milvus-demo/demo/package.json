@@ -1,0 +1,7 @@
+{
+	"dependencies": {
+		"@langchain/openai": "^1.5.10",
+		"@zilliz/milvus2-sdk-node": "^3.0.4",
+		"dotenv": "^17.4.2"
+	}
+}
