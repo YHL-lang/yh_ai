@@ -3,7 +3,7 @@ import ColorBrowser from "./components/ColorBrowser";
 import { type Color } from "./model/color";
 import ColorPicker from "./components/ColorPicker.tsx";
 import MemberTable from "./components/MemberTable.tsx";
-import { type MemberEntity } from "./model/member";
+
 
 
 
