@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>单例模式打开窗口</title>
+</head>
+
+<body>
+  <button id="openBtn">打开窗口</button>
+  <script>
+    class Popup {
+      static ins;//单例实例化对象 静态属性 不要先new Popup.ins
+      static getInstance() {
+        if (!Popup.ins) {
+          Popup.ins = new Popup();
+        }
+        return Popup.ins;
+      }
+      open(url) {
+        window.open(url, "_blank");
+      }
+    }
+    const a = Popup.getInstance();//单例模式 代替new
+    const b = Popup.getInstance();
+    console.log(a === b);//true
+    const openBtn = document.getElementById("openBtn");
+    openBtn.addEventListener("click", () => {
+      // window.open("https://www.baidu.com");
+      a.open("https://www.baidu.com");
+    });
+  </script>
+</body>
+
+</html>
