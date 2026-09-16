@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SSE Demo</title>
+</head>
+
+<body>
+  <h1>SSE Demo</h1>
+  <div id="result"></div>
+  <script>
+    const resultEle = document.getElementById('result');
+    // 怎么实现连接stream sse？
+    const eventSource = new EventSource('http://localhost:3000/stream');
+    // chunk 达到时监听
+    eventSource.onmessage = (e) => {
+      console.log(e.data);
+      resultEle.innerText += e.data;
+    }
+  </script>
+</body>
+
+</html>
