@@ -2,7 +2,7 @@
 
 > 以 `backend/index.js`、`frontend/index.html`、`frontend/fetch.html` 三个文件为线索，讲清楚「前端怎么拿到后端数据」这件事。
 
-## 🗺️ 一、先看全貌：一个小小项目的地图
+## 🗺️ 一、先看全貌：一个小小项目的地图 
 
 ```
 ajax/
