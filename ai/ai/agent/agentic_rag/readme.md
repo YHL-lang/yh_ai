@@ -23,3 +23,7 @@ llm 能思考，但不知道公司内部的文档，我们需要基于内部文�
 ## Agentic RAG
 自主规划，更智能，评估
 langgraph 设计一个graph 表示 Agentic RAG 流程？
+
+## RAG graph
+- 简单问题 任然会走retrieve，浪费token和时间
+  重新设计graph

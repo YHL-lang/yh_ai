@@ -23,7 +23,7 @@ const GraphState = Annotation.Root({
 })
 
 const model = new ChatOpenAI({
-  model: process.env.MODEL_NAME,
+  model: process.env.OPENAI_MODEL_NAME,
   temperature: 0,
   apiKey: process.env.OPENAI_API_KEY,
   configuration: {
@@ -91,7 +91,7 @@ const generateNode = async (state) => {
   let generation = "";
   const stream = await model.stream(prompt);
   for await (const chunk of stream) {
-    const text = typeof chunk === "string" ? chunk.content : "";
+    const text = typeof chunk === "string" ? chunk : chunk.content;
     if (!text) continue;
     generation += text;
     process.stdout.write(text);
@@ -139,6 +139,51 @@ async function main() {
       search_params: { ef: 64 }
     }
   })
+  vectorStore.indexSearchParams = {
+    metric_type: "COSINE",
+    params: JSON.stringify({ ef: 64 })
+  }
+  console.log('已连接');
+  try {
+    await vectorStore.client.loadCollection({ collection_name: COLLECTION_NAME })
+    console.log(`集合${COLLECTION_NAME}已加载`);
+  } catch (error) {
+    if (!error.message.includes("already loaded")) {
+      throw error;
+    }
+    console.log(`集合${COLLECTION_NAME}已处于加载状态，无需重复加载`);
+  }
+
+  console.log("=".repeat(80));
+  console.log(`问题:${question}`);
+  console.log("=".repeat(80));
+
+  const result = await graph.invoke({
+    question,
+    k: Number.isFinite(kArg) ? kArg : TOP_K,
+    document: [],
+    generation: ""
+  })
+  console.log(`检索相关内容`);
+  if (result.document.length == 0) {
+    console.log(`未检索到相关文档`);
+    console.log(`\n[AI回答]`);
+    console.log("没有找到相关的《天龙八部》小说片段");
+    return;
+  } else {
+    result.document.forEach((item, i) => {
+      console.log(`\n[片段${i + 1}相似度:${item.score.toFixed(4)}]`);
+      console.log(`书籍ID:${item.book_id}`);
+      console.log(`章节:第${item.chapter_num}章`);
+      console.log(`内容:${item.document.substring(0, 200)}...`)
+      console.log(`-----------------`);
+    })
+  }
+  if (!result.generation) {
+    console.log(`模型未返回内容`);
+  } else {
+    console.log(`模型回答:${result.generation}`);
+  }
 }
 
 main()
