@@ -27,3 +27,5 @@ docker compose up -d
 - docker compose 寻找目录下的 docker-compose.yml 文件
 - up 启动起来
 - -d 后台运行
+
+使用docker 来启动 ElasticSearch
