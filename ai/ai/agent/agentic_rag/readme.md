@@ -27,3 +27,6 @@ langgraph 设计一个graph 表示 Agentic RAG 流程？
 ## RAG graph
 - 简单问题 任然会走retrieve，浪费token和时间
   重新设计graph
+
+## 继续来优化现在RAG的问题
+- 处理不了需要多步检索的复杂问题，比如先查A，再查B，最后回答问题
